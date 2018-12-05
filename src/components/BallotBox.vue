@@ -3,8 +3,10 @@
     <el-container>
       <el-main>
         <el-row>
-          <el-col :span="12" v-for="suggestion in suggestions" :key="suggestion.dbId">
+          <el-col :span="16" :offset="4" :xs="{span:24,offset:0}">
             <suggestion
+              v-for="suggestion in suggestions"
+              :key="suggestion.dbId"
               :problem="suggestion.problem"
               :solution="suggestion.solution"
               :target="suggestion.target"
@@ -17,9 +19,11 @@
             ></suggestion>
           </el-col>
         </el-row>
+        <el-row style="text-align:center">
+          <el-button type="primary" @click.native="addSuggestion">Dodaj predlog</el-button>
+        </el-row>
       </el-main>
     </el-container>
-    <button @click="addSuggestion">Add suggestion</button>
   </div>
 </template>
 
@@ -74,14 +78,7 @@ export default {
           this.suggestions.push(toPush);
         });
       });
-    }
+    },
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-  .ballot-box {
-    width: 100%;
-  }
-</style>

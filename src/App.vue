@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  font-family: 'Fira Sans', sans-serif;
+}
 </style>

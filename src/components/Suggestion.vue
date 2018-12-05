@@ -4,10 +4,9 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>Predlog {{ dbId }}</span>
-          <el-button style="float: right; padding: 3px 0" @click.native="saveSuggestion">Shrani</el-button>
         </div>
         <el-row>
-          <el-col :span="10" :offset="1">
+          <el-col :span="11" :offset="1">
             <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
             <p>Komu se godi krivica? Kaj je narobe? Zakaj je narobe?</p>
             <el-input
@@ -18,7 +17,7 @@
             >
             </el-input>
           </el-col>
-          <el-col :span="10" :offset="2">
+          <el-col :span="11" :offset="1">
             <h4>Opiši predlagani projekt v nekaj stavkih:</h4>
             <p>Kako bi projekt / kampanja naslovila in opozorila na predstavljen problem? Kaj je zgodba, ki jo povemo? Kaj je twist / inovativen pristop / viralni faktor, ki bo pritegnil pozornost?</p>
             <el-input
@@ -31,7 +30,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="10" :offset="1">
+          <el-col :span="11" :offset="1">
             <h4>Kdo je ciljna skupina?</h4>
             <p>Splošna javnost? Mediji? Odločevalci? Specifična demografska skupina?</p>
             <el-input
@@ -42,7 +41,7 @@
             >
             </el-input>
           </el-col>
-          <el-col :span="10" :offset="2">
+          <el-col :span="11" :offset="1">
             <h4>Kaj je akcijski cilj projekta?</h4>
             <p>Kaj želiš, da posameznik naredi, ko se seznani s projektom? Podpiše peticijo? Pošlje mail odločevalcem? Shara objavo? Vabi prijatelje? ...</p>
             <el-input
@@ -55,7 +54,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="10" :offset="1">
+          <el-col :span="11" :offset="1">
             <h4>Kateri komunikacijski kanali bi se uporabili?</h4>
             <p>Spletna stran? Družbena omrežja? Offline?</p>
             <el-input
@@ -66,7 +65,7 @@
             >
             </el-input>
           </el-col>
-          <el-col :span="10" :offset="2">
+          <el-col :span="11" :offset="1">
             <h4>Oriši faze oziroma časovnico projekta:</h4>
             <p>Ima projekt več faz? Kako si sledijo in kaj se zgodi kje?</p>
             <el-input
@@ -90,12 +89,38 @@
             </el-input>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col style="text-align:center;margin-top:2rem;">
+            <el-button
+              type="success"
+              @click.native="saveSuggestion"
+            >Shrani</el-button>
+          </el-col>
+        </el-row>
       </el-card>
     </form>
-        <div v-else>
+    <div v-else>
+      <el-card>
+        <div slot="header" class="clearfix">
+          <span>Predlog {{ dbId }}</span>
         </div>
-      </el-col>
-    </el-row>
+        <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
+        <p class="pre-line" v-text="problem"></p>
+        <h4>Opiši predlagani projekt v nekaj stavkih:</h4>
+        <p class="pre-line" v-text="solution"></p>
+        <h4>Kdo je ciljna skupina?</h4>
+        <p class="pre-line" v-text="target"></p>
+        <h4>Kaj je akcijski cilj projekta?</h4>
+        <p class="pre-line" v-text="goal"></p>
+        <h4>Kateri komunikacijski kanali bi se uporabili?</h4>
+        <p class="pre-line" v-text="channels"></p>
+        <h4>Oriši faze oziroma časovnico projekta:</h4>
+        <p class="pre-line" v-text="phases"></p>
+        <h4>Kako lahko pomagaš?</h4>
+        <p class="pre-line" v-text="help"></p>
+      </el-card>
+    </div>
+    <br>
   </div>
 </template>
 
@@ -167,8 +192,25 @@ export default {
   .suggestion {
     width: 100%;
 
+    h4 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    .pre-line {
+      white-space: pre-line;
+    }
+
     form {
       width: 100%;
+
+      .el-col {
+        margin-bottom: 2rem;
+      }
 
       textarea {
         width: 100%;
