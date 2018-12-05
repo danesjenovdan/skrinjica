@@ -3,8 +3,20 @@
     <form v-if="editing">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>Predlog {{ dbId }}</span>
+          <span>{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
         </div>
+        <el-row>
+          <el-col :span="22" :offset="1">
+            <h4>Ime predloga:</h4>
+            <el-input
+              type="input"
+              :autosize="{ minRows: 4, maxRows: 5}"
+              placeholder="Piši sem ..."
+              v-model="title"
+            >
+            </el-input>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="11" :offset="1">
             <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
@@ -102,7 +114,7 @@
     <div v-else>
       <el-card>
         <div slot="header" class="clearfix">
-          <span>Predlog {{ dbId }}</span>
+          <span>{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
         </div>
         <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
         <p class="pre-line" v-text="problem"></p>
@@ -118,6 +130,14 @@
         <p class="pre-line" v-text="phases"></p>
         <h4>Kako lahko pomagaš?</h4>
         <p class="pre-line" v-text="help"></p>
+        <el-row>
+          <el-col style="text-align:center;margin-top:2rem;">
+            <el-button
+              type="warning"
+              @click.native="$emit('editme')"
+            >Uredi</el-button>
+          </el-col>
+        </el-row>
       </el-card>
     </div>
     <br>
@@ -158,9 +178,14 @@ export default {
     },
     editing: {
       type: Boolean,
+      default: false,
     },
     dbId: {
       type: String,
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
 
@@ -180,8 +205,10 @@ export default {
         channels: this.channels,
         phases: this.phases,
         help: this.help,
-        editing: false,
+        title: this.title,
       });
+
+      this.$emit('saveme');
     },
   },
 };

@@ -3,10 +3,19 @@
     <el-container>
       <el-main>
         <el-row>
-          <el-col :span="16" :offset="4" :xs="{span:24,offset:0}">
+          <el-col :span="12" :offset="6" :xs="{span:24,offset:0}">
+            <p class="intro">Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla.</p>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col
+            :span="(editors.indexOf(suggestion.dbId) !== -1) ? 16 : 10"
+            :offset="(editors.indexOf(suggestion.dbId) !== -1) ? 4 : 1"
+            :xs="{span:24,offset:0}"
+            v-for="suggestion in suggestions"
+            :key="suggestion.dbId"
+          >
             <suggestion
-              v-for="suggestion in suggestions"
-              :key="suggestion.dbId"
               :problem="suggestion.problem"
               :solution="suggestion.solution"
               :target="suggestion.target"
@@ -14,8 +23,11 @@
               :channels="suggestion.channels"
               :phases="suggestion.phases"
               :help="suggestion.help"
-              :editing="suggestion.editing"
+              :editing="editors.indexOf(suggestion.dbId) !== -1"
               :dbId="suggestion.dbId"
+              :title="suggestion.title"
+              @saveme="onSave(suggestion.dbId)"
+              @editme="editors.push(suggestion.dbId)"
             ></suggestion>
           </el-col>
         </el-row>
@@ -40,6 +52,7 @@ export default {
     return {
       db: null,
       suggestions: [],
+      editors: [],
     };
   },
 
@@ -47,12 +60,16 @@ export default {
     this.db = firebase.firestore();
 
     this.refreshSuggestions(false);
-    // this.db.collection('suggestions');
+
+    this.editors = this.$ls.get('editors', '').split(',');
   },
 
   methods: {
     addSuggestion() {
-      this.db.collection('suggestions').doc().set({
+      const ref = this.getRandomString();
+      this.editors.push(ref);
+      this.$ls.set('editors', this.editors);
+      this.db.collection('suggestions').doc(ref).set({
         problem: '',
         solution: '',
         target: '',
@@ -60,12 +77,12 @@ export default {
         channels: '',
         phases: '',
         help: '',
-        editing: true,
+        title: '',
       }).then(() => {
         this.refreshSuggestions(true);
       });
-      console.log('add suggestion');
     },
+
     refreshSuggestions(clear) {
       if (clear) {
         this.suggestions = [];
@@ -79,6 +96,22 @@ export default {
         });
       });
     },
+
+    onSave(dbId) {
+      this.editors.splice(this.editors.indexOf(dbId), 1);
+      this.$ls.set('editors', this.editors);
+      this.refreshSuggestions(true);
+    },
+
+    getRandomString() {
+      return Math.random().toString(36).substring(7);
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .intro {
+    font-size: 24px;
+  }
+</style>
