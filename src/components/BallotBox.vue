@@ -26,8 +26,10 @@
               :editing="editors.indexOf(suggestion.dbId) !== -1"
               :dbId="suggestion.dbId"
               :title="suggestion.title"
+              :admin="admin"
               @saveme="onSave(suggestion.dbId)"
               @editme="editors.push(suggestion.dbId)"
+              @deleteme="onDelete(suggestion.dbId)"
             ></suggestion>
           </el-col>
         </el-row>
@@ -53,6 +55,7 @@ export default {
       db: null,
       suggestions: [],
       editors: [],
+      admin: false,
     };
   },
 
@@ -62,6 +65,10 @@ export default {
     this.refreshSuggestions(false);
 
     this.editors = this.$ls.get('editors', '').split(',');
+
+    if (document.location.href.indexOf('admin') !== -1) {
+      this.admin = true;
+    }
   },
 
   methods: {
@@ -98,6 +105,12 @@ export default {
     },
 
     onSave(dbId) {
+      this.editors.splice(this.editors.indexOf(dbId), 1);
+      this.$ls.set('editors', this.editors);
+      this.refreshSuggestions(true);
+    },
+
+    onDelete(dbId) {
       this.editors.splice(this.editors.indexOf(dbId), 1);
       this.$ls.set('editors', this.editors);
       this.refreshSuggestions(true);

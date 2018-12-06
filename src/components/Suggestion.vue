@@ -19,7 +19,7 @@
         </el-row>
         <el-row>
           <el-col :span="11" :offset="1">
-            <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
+            <h4>Opiši družbeni problem, ki ga projekt naslavlja:</h4>
             <p>Komu se godi krivica? Kaj je narobe? Zakaj je narobe?</p>
             <el-input
               type="textarea"
@@ -67,7 +67,7 @@
         </el-row>
         <el-row>
           <el-col :span="11" :offset="1">
-            <h4>Kateri komunikacijski kanali bi se uporabili?</h4>
+            <h4>Kateri komunikacijske kanale bi uporabili?</h4>
             <p>Spletna stran? Družbena omrežja? Offline?</p>
             <el-input
               type="textarea"
@@ -91,7 +91,7 @@
         </el-row>
         <el-row>
           <el-col :span="12" :offset="6">
-            <h4>Kako lahko pomagaš?</h4>
+            <h4>Kako vidiš svojo vlogo v projektu?</h4>
             <el-input
               type="textarea"
               :autosize="{ minRows: 4, maxRows: 5}"
@@ -112,11 +112,11 @@
       </el-card>
     </form>
     <div v-else>
-      <el-card>
+      <el-card class="locked">
         <div slot="header" class="clearfix">
           <span>{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
         </div>
-        <h4>Opiši družbeni problem, na katerega se projekt naslavlja:</h4>
+        <h4>Opiši družbeni problem, ki ga projekt naslavlja:</h4>
         <p class="pre-line" v-text="problem"></p>
         <h4>Opiši predlagani projekt v nekaj stavkih:</h4>
         <p class="pre-line" v-text="solution"></p>
@@ -124,11 +124,11 @@
         <p class="pre-line" v-text="target"></p>
         <h4>Kaj je akcijski cilj projekta?</h4>
         <p class="pre-line" v-text="goal"></p>
-        <h4>Kateri komunikacijski kanali bi se uporabili?</h4>
+        <h4>Kateri komunikacijske kanale bi uporabili?</h4>
         <p class="pre-line" v-text="channels"></p>
         <h4>Oriši faze oziroma časovnico projekta:</h4>
         <p class="pre-line" v-text="phases"></p>
-        <h4>Kako lahko pomagaš?</h4>
+        <h4>Kako vidiš svojo vlogo v projektu?</h4>
         <p class="pre-line" v-text="help"></p>
         <el-row>
           <el-col style="text-align:center;margin-top:2rem;">
@@ -136,6 +136,11 @@
               type="warning"
               @click.native="$emit('editme')"
             >Uredi</el-button>
+            <el-button
+              v-if="admin"
+              type="error"
+              @click.native="deleteSuggestion"
+            >Izbriši</el-button>
           </el-col>
         </el-row>
       </el-card>
@@ -187,6 +192,10 @@ export default {
       type: String,
       default: '',
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   mounted() {
@@ -209,6 +218,13 @@ export default {
       });
 
       this.$emit('saveme');
+    },
+
+    deleteSuggestion() {
+      firebase.firestore().collection('suggestions').doc(this.dbId).delete()
+        .then(() => {
+          this.$emit('deleteme');
+        });
     },
   },
 };
@@ -241,6 +257,15 @@ export default {
 
       textarea {
         width: 100%;
+      }
+    }
+
+    .locked {
+      h4 {
+        color: #502525a8;
+      }
+      p {
+        font-size: 22px;
       }
     }
   }
