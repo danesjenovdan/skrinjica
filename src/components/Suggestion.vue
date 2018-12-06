@@ -3,7 +3,7 @@
     <form v-if="editing">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
+          <span class="card-title">{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
         </div>
         <el-row>
           <el-col :span="22" :offset="1">
@@ -114,7 +114,7 @@
     <div v-else>
       <el-card class="locked">
         <div slot="header" class="clearfix">
-          <span>{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
+          <span class="card-title">{{ title === '' ? `Predlog ${dbId}` : `${title}` }}</span>
         </div>
         <h4>Opiši družbeni problem, ki ga projekt naslavlja:</h4>
         <p class="pre-line" v-text="problem"></p>
@@ -235,6 +235,11 @@ export default {
   .suggestion {
     width: 100%;
 
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
     h4 {
       margin-top: 0;
       margin-bottom: 1rem;
@@ -263,9 +268,10 @@ export default {
     .locked {
       h4 {
         color: #502525a8;
+        font-size: 14px;
       }
       p {
-        font-size: 22px;
+        font-size: 18px;
       }
     }
   }
