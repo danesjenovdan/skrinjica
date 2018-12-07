@@ -90,8 +90,6 @@ export default {
 
     this.refreshSuggestions(false);
 
-    this.editors = this.$ls.get('editors', '').split(',');
-
     if (document.location.href.indexOf('admin') !== -1) {
       this.admin = true;
     }
@@ -101,7 +99,6 @@ export default {
     addSuggestion() {
       const ref = this.getRandomString();
       this.editors.push(ref);
-      this.$ls.set('editors', this.editors);
       this.db.collection('suggestions').doc(ref).set({
         problem: '',
         solution: '',
@@ -132,13 +129,11 @@ export default {
 
     onSave(dbId) {
       this.editors.splice(this.editors.indexOf(dbId), 1);
-      this.$ls.set('editors', this.editors);
       this.refreshSuggestions(true);
     },
 
     onDelete(dbId) {
       this.editors.splice(this.editors.indexOf(dbId), 1);
-      this.$ls.set('editors', this.editors);
       this.refreshSuggestions(true);
     },
 

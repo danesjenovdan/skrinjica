@@ -107,6 +107,11 @@
               type="success"
               @click.native="saveSuggestion"
             >Shrani</el-button>
+            <el-button
+              type="error"
+              @click.native="deleteSuggestion"
+              style="float: right;"
+            >Izbriši</el-button>
           </el-col>
         </el-row>
       </el-card>
