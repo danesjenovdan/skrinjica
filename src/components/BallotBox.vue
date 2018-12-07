@@ -38,10 +38,10 @@
         </el-row>
         <el-row>
           <el-col
-            :span="(editors.indexOf(suggestion.dbId) !== -1) ? 16 : 10"
-            :offset="(editors.indexOf(suggestion.dbId) !== -1) ? 4 : 1"
+            :span="10"
+            :offset="(i % 2 == 0) ? 1 : 2"
             :xs="{span:24,offset:0}"
-            v-for="suggestion in suggestions.filter(suggestion => editors.indexOf(suggestion.dbId) === -1)"
+            v-for="(suggestion, i) in suggestions.filter(suggestion => editors.indexOf(suggestion.dbId) === -1)"
             :key="suggestion.dbId"
           >
             <suggestion
