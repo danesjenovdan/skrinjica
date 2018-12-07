@@ -7,12 +7,15 @@
             <p class="intro">Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla.</p>
           </el-col>
         </el-row>
+        <el-row style="text-align:center; padding-bottom: 40px;">
+          <el-button type="primary" @click.native="addSuggestion">Dodaj predlog</el-button>
+        </el-row>
         <el-row>
           <el-col
-            :span="(editors.indexOf(suggestion.dbId) !== -1) ? 16 : 10"
-            :offset="(editors.indexOf(suggestion.dbId) !== -1) ? 4 : 1"
+            :span="16"
+            :offset="4"
             :xs="{span:24,offset:0}"
-            v-for="suggestion in suggestions"
+            v-for="suggestion in suggestions.filter(suggestion => editors.indexOf(suggestion.dbId) !== -1)"
             :key="suggestion.dbId"
           >
             <suggestion
@@ -33,8 +36,31 @@
             ></suggestion>
           </el-col>
         </el-row>
-        <el-row style="text-align:center">
-          <el-button type="primary" @click.native="addSuggestion">Dodaj predlog</el-button>
+        <el-row>
+          <el-col
+            :span="(editors.indexOf(suggestion.dbId) !== -1) ? 16 : 10"
+            :offset="(editors.indexOf(suggestion.dbId) !== -1) ? 4 : 1"
+            :xs="{span:24,offset:0}"
+            v-for="suggestion in suggestions.filter(suggestion => editors.indexOf(suggestion.dbId) === -1)"
+            :key="suggestion.dbId"
+          >
+            <suggestion
+              :problem="suggestion.problem"
+              :solution="suggestion.solution"
+              :target="suggestion.target"
+              :goal="suggestion.goal"
+              :channels="suggestion.channels"
+              :phases="suggestion.phases"
+              :help="suggestion.help"
+              :editing="editors.indexOf(suggestion.dbId) !== -1"
+              :dbId="suggestion.dbId"
+              :title="suggestion.title"
+              :admin="admin"
+              @saveme="onSave(suggestion.dbId)"
+              @editme="editors.push(suggestion.dbId)"
+              @deleteme="onDelete(suggestion.dbId)"
+            ></suggestion>
+          </el-col>
         </el-row>
       </el-main>
     </el-container>
