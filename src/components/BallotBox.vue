@@ -4,7 +4,8 @@
       <el-main>
         <el-row>
           <el-col :span="12" :offset="6" :xs="{span:24,offset:0}">
-            <p class="intro">Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla. Blabla intro tekst blabla.</p>
+            <p class="intro">Zbiramo predloge za nove projekte in akcije. Izbrani/-e predlog/-e bomo izvedli na januarskem delovnem vikendu, na katerega si lepo vabljen/-a, zato imej v mislih, da mora biti ideja izvedljiva v enem vikendu.</p>
+            <p class="intro">Svoj predlog opiši s pomočjo obrazca spodaj. Pa brez skrbi, če ne poznaš odgovorov na vsa zastavljena vprašanja!</p>
           </el-col>
         </el-row>
         <el-row style="text-align:center; padding-bottom: 40px;">
